@@ -31,7 +31,7 @@ public:
     }
     
     // O(len) --> count of words having given proper prefix
-    int search_prefix(string s) {
+    int search_proper_prefix(string s) {
         TrieNode* curr = root;
         for(int i = 0; i < s.length(); i++) {
             if(curr->child[s[i] - 'a'] == nullptr)
@@ -57,17 +57,9 @@ public:
         if(search_word(s) == 0) return;  // word not found
         
         TrieNode* curr = root;
-        TrieNode* parent = nullptr;
         for(int i = 0; i < s.length(); i++) {
             curr->cnt_prefix--;  // decrease prefix count
-            parent = curr;
             curr = curr->child[s[i] - 'a'];
-            // if node is no longer needed, delete it
-            if(curr->cnt_prefix == 1) {
-                delete curr;
-                parent->child[s[i] - 'a'] = nullptr;
-                break;
-            }
         }
         auto it = find(curr->wend.begin(), curr->wend.end(), s);
         curr->wend.erase(it);
